@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How the HVAC Advisor Works</title>
+
+  <!-- Google Fonts: Bricolage Grotesque · DM Sans · JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root {
+      --color-accent:       #2A7B9B;
+      --color-accent-hover: #1F6280;
+      --color-accent-light: #E4F2F7;
+      --color-accent-muted: #5A9DB8;
+    }
+  </style>
+
+  <script src="main.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="nav-inner">
+      <span class="nav-title">How the HVAC Advisor Works</span>
+      <div class="nav-dots" id="nav-dots" role="tablist">
+        <button class="nav-dot" data-target="module-1" data-tooltip="What This App Does" role="tab" aria-label="Module 1: What This App Does"></button>
+        <button class="nav-dot" data-target="module-2" data-tooltip="Meet the Cast" role="tab" aria-label="Module 2: Meet the Cast"></button>
+        <button class="nav-dot" data-target="module-3" data-tooltip="How the Pieces Talk" role="tab" aria-label="Module 3: How the Pieces Talk"></button>
+        <button class="nav-dot" data-target="module-4" data-tooltip="The Outside World" role="tab" aria-label="Module 4: The Outside World"></button>
+        <button class="nav-dot" data-target="module-5" data-tooltip="The Clever Tricks" role="tab" aria-label="Module 5: The Clever Tricks"></button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">What This App Does</h1>
+      <p class="module-subtitle">You ask an HVAC question. The app gives you three answers of increasing quality. Here's why that matters.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The product -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">An HVAC Expert You Can Ask Anything</h2>
+        <p>Imagine you're choosing a rooftop air conditioning unit for a building in Phoenix, Arizona. You could spend hours reading product manuals — or you could type a question in plain English and get an expert-level answer backed by real documentation.</p>
+        <p>That's what this app does. It's built as a <span class="term" data-definition="A Colab notebook is a free, browser-based coding environment from Google. Think of it as a smart document where you can write instructions and immediately see the results — no software to install.">Google Colab notebook</span> that connects to <span class="term" data-definition="OpenAI is the company behind ChatGPT. Their API lets other programs send questions to their AI models and get answers back — like texting a very smart assistant.">OpenAI's AI models</span> and a library of HVAC product documents.</p>
+
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">&#x1F4AC;</div>
+            <h4 class="pattern-title">Ask in Plain English</h4>
+            <p class="pattern-desc">Type any HVAC question — product comparisons, maintenance advice, model recommendations.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">&#x1F30D;</div>
+            <h4 class="pattern-title">Location-Aware</h4>
+            <p class="pattern-desc">Mention a city and the app automatically looks up climate data to tailor its advice.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">&#x1F4DA;</div>
+            <h4 class="pattern-title">Document-Backed</h4>
+            <p class="pattern-desc">Answers cite real HVAC product manuals, not guesses — so you can verify every claim.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: The three modes -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Three Answers, Three Levels of Smarts</h2>
+        <p>The app doesn't just give you one answer — it shows you three, side by side, so you can see the difference between a basic AI guess and a deeply grounded recommendation. Think of it like asking three different consultants:</p>
+
+        <div class="step-cards stagger-children">
+          <div class="step-card animate-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Baseline LLM — The Generalist</strong>
+              <p>Asks the AI directly with no reference material. Like asking a smart friend who hasn't read the manuals — they'll give a reasonable answer, but might make things up.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>RAG — The Researcher</strong>
+              <p>First searches HVAC product documents, then feeds the relevant snippets to the AI. Like a consultant who reads the manuals before answering — grounded, with citations.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Deep Agent — The Senior Expert</strong>
+              <p>An autonomous agent that decides what to do: checks if the question mentions a location, looks up climate data, searches documents, and synthesizes everything. Like a senior engineer who knows what questions to ask before answering yours.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Trace a real query -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Tracing a Real Query</h2>
+        <p>Let's follow what happens when you type: <em>"Which chiller model do you recommend for a residence in Phoenix, Arizona?"</em></p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"You type the question and click Run Demo"},
+          {"highlight":"flow-actor-2","label":"Deep Agent reads the query and spots Phoenix, Arizona","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-3","label":"Agent calls the Climate Tool to get Phoenix weather data","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-3","label":"Climate tool returns: hot summers (107F highs), mild winters, dry climate"},
+          {"highlight":"flow-actor-4","label":"Agent searches HVAC documents for chiller recommendations","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-4","label":"Vector store returns matching product manual excerpts with relevance scores"},
+          {"highlight":"flow-actor-2","label":"Agent combines climate context + document evidence into a final answer","packet":true,"from":"actor-4","to":"actor-2"},
+          {"highlight":"flow-actor-5","label":"Answer is displayed with citations, climate profile, and step trace","packet":true,"from":"actor-2","to":"actor-5"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">&#x1F464;</div>
+              <span>You</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">&#x1F916;</div>
+              <span>Deep Agent</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">&#x1F321;</div>
+              <span>Climate Tool</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">&#x1F4DA;</div>
+              <span>Doc Search</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">&#x1F4BB;</div>
+              <span>Display</span>
+            </div>
+          </div>
+          <div class="flow-packet"></div>
+          <div class="flow-step-label">Click "Next Step" to begin</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Next Step</button>
+            <button class="btn flow-reset-btn">Restart</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Why this matters callout + quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Why Should You Care?</h2>
+
+        <div class="callout callout-accent">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Power of RAG</strong>
+            <p><span class="term" data-definition="RAG stands for Retrieval-Augmented Generation. Instead of asking an AI to answer from memory (which can be wrong), you first search a document library for relevant information, then feed those documents to the AI so it can base its answer on real evidence.">RAG (Retrieval-Augmented Generation)</span> is one of the most important patterns in modern AI. It's the difference between an AI that guesses and one that cites sources. If you're building AI tools, understanding RAG is essential — it's how you make AI trustworthy.</p>
+          </div>
+        </div>
+
+        <div class="quiz-container" id="quiz-module1">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! The Deep Agent is the only mode that can detect a location, fetch climate data, AND search documents — then combine both into a tailored answer."
+               data-explanation-wrong="Not quite. Think about which mode can both understand location context AND search product documents. The Baseline has no documents, and RAG searches documents but has no climate awareness.">
+            <h3 class="quiz-question">A customer asks: "What rooftop unit works best for Miami's humidity?" Which mode would give the most useful answer?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Baseline LLM — it knows about Miami</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>RAG — it can search the product manuals</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Deep Agent — it can look up Miami's climate AND search the manuals</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! RAG searches documents first, then builds the answer from what it finds. That's why it can cite specific filenames — it's reading before answering."
+               data-explanation-wrong="Think about the order of operations. RAG doesn't memorize documents — it searches them fresh for each question, then hands the results to the AI to compose an answer.">
+            <h3 class="quiz-question">Why can RAG mode cite specific filenames like [manual.pdf] in its answers?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The AI memorized all the document names during training</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It searches real documents first, then includes what it found in the answer</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The filenames are hardcoded into the system prompt</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">Meet the Cast</h1>
+      <p class="module-subtitle">Every app is a team effort. Here are the five key players in this HVAC advisor and what each one is responsible for.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The actors -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Five Players, One Goal</h2>
+        <p>Think of this app like a consulting firm. Each department has a specialty, and they pass work between each other to produce a final report. Nobody does everything alone.</p>
+
+        <div class="icon-rows stagger-children">
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-4)">&#x2699;</div>
+            <div>
+              <strong>Config Manager</strong>
+              <p>Loads API keys, model names, and settings. The office manager who makes sure everyone has the credentials they need before work begins.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-1)">&#x1F321;</div>
+            <div>
+              <strong>Climate Engine</strong>
+              <p>Given a city name, finds its coordinates, pulls 10 years of weather data, and translates it into HVAC-relevant notes like "hot summers, freeze risk in winter."</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-2)">&#x1F50D;</div>
+            <div>
+              <strong>Document Search</strong>
+              <p>Searches an <span class="term" data-definition="A vector store is a special database that stores documents as mathematical patterns (vectors). Instead of searching by exact keywords, it finds documents that are semantically similar to your question — so 'cooling capacity' matches 'BTU rating' even though the words are different.">OpenAI vector store</span> of HVAC product manuals and returns the most relevant chunks with relevance scores.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-3)">&#x1F916;</div>
+            <div>
+              <strong>Answer Modes (Baseline / RAG / Agent)</strong>
+              <p>Three different strategies for turning your question into an answer. Each one uses the other players differently — or not at all.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-5)">&#x1F5A5;</div>
+            <div>
+              <strong>UI &amp; Renderer</strong>
+              <p>The <span class="term" data-definition="IPython widgets are interactive controls (dropdowns, buttons, text boxes) that appear inside a Jupyter/Colab notebook. They let you build a simple user interface without creating a separate web app.">IPython widgets</span> interface: a dropdown to pick the mode, a text box for your query, and rich output that shows evidence, climate profiles, and agent step traces.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Group chat -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">How They Collaborate</h2>
+        <p>Here's a behind-the-scenes conversation when the Deep Agent handles a location-based query. Watch how each actor plays its part:</p>
+
+        <div class="chat-window" id="chat-module2">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-4)">U</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-4)">User</span>
+                <p>Which rooftop unit do you recommend for Phoenix, Arizona?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">A</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Deep Agent</span>
+                <p>I see "Phoenix, Arizona" in the query. Let me get climate context first.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="climate" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">C</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Climate Engine</span>
+                <p>Phoenix resolved! Lat 33.45, Lon -112.07. Hottest month avg high: 107.2F. Annual precip: 8.1 inches. Dry and extremely hot.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="climate" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">C</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Climate Engine</span>
+                <p>Maintenance notes: prioritize condenser coil cleaning, check filters for dust accumulation in dry conditions.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">A</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Deep Agent</span>
+                <p>Got it. Now let me search the HVAC docs for rooftop units with strong cooling performance.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="5" data-sender="search" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">S</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">Doc Search</span>
+                <p>Found 4 chunks from the vector store. Top hit: rooftop-units-spec.pdf (score: 0.89). Includes BACnet/IP support and economizer options.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="6" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">A</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Deep Agent</span>
+                <p>Combining climate data + document evidence into a final recommendation with citations.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="7" data-sender="ui" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">R</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">Renderer</span>
+                <p>Displaying: climate profile, retrieved evidence table, agent step trace, and the final answer with [rooftop-units-spec.pdf] citations.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-typing" style="display:none">
+            <div class="chat-avatar" id="chat-module2-typing-avatar" style="background: var(--color-text-muted)">?</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Next Message</button>
+            <button class="btn chat-all-btn">Play All</button>
+            <button class="btn chat-reset-btn">Replay</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Code translation - Config -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Under the Hood: Config Manager</h2>
+        <p>Everything starts with credentials. Here's how the app loads its settings — notice the fallback pattern that checks multiple sources:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">get_secret</span>(name: <span class="code-function">str</span>, default: <span class="code-function">str</span> = <span class="code-string">""</span>) -> <span class="code-function">str</span>:</span>
+<span class="code-line">    <span class="code-keyword">if</span> os.<span class="code-function">getenv</span>(name):</span>
+<span class="code-line">        <span class="code-keyword">return</span> os.<span class="code-function">getenv</span>(name)</span>
+<span class="code-line">    <span class="code-keyword">if</span> userdata <span class="code-keyword">is not</span> <span class="code-keyword">None</span>:</span>
+<span class="code-line">        <span class="code-keyword">try</span>:</span>
+<span class="code-line">            value = userdata.<span class="code-function">get</span>(name)</span>
+<span class="code-line">            <span class="code-keyword">if</span> value:</span>
+<span class="code-line">                <span class="code-keyword">return</span> value</span>
+<span class="code-line">        <span class="code-keyword">except</span> Exception:</span>
+<span class="code-line">            <span class="code-keyword">pass</span></span>
+<span class="code-line">    <span class="code-keyword">return</span> default</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Define a helper that looks up a secret value by name.</p>
+              <p class="tl">First, check if it's set as an environment variable on the computer.</p>
+              <p class="tl">If found there, use it immediately.</p>
+              <p class="tl">If not, check if we're running in Google Colab...</p>
+              <p class="tl">...and try to read from Colab's built-in secrets manager.</p>
+              <p class="tl">Look up the secret by name in Colab.</p>
+              <p class="tl">If we got a value, use it.</p>
+              <p class="tl">Return the Colab value.</p>
+              <p class="tl">If anything goes wrong with Colab secrets, just move on.</p>
+              <p class="tl">Silently skip — no crash, just try the next option.</p>
+              <p class="tl">If nothing worked, return a default value (usually empty).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Defensive Fallbacks</strong>
+            <p>This "try here, then there, then give up gracefully" pattern is everywhere in professional code. It's called a <span class="term" data-definition="A fallback chain is when code tries multiple approaches in order, moving to the next one if the previous fails. Like checking your wallet, then your coat pocket, then your car — you stop as soon as you find your keys.">fallback chain</span>. When you're directing an AI to write code that loads configuration, asking for fallback behavior makes it much more robust.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! The Climate Engine only runs when the Deep Agent detects a location in the query. If you ask a generic product question, it's skipped entirely."
+               data-explanation-wrong="Think about what triggers the climate lookup. The Climate Engine needs a location to work with — it can't look up weather for 'everywhere.'">
+            <h3 class="quiz-question">You ask "What's the difference between Model X and Model Y?" — which actor is NOT involved?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Document Search — it needs to find product info</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Climate Engine — there's no location to look up</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>UI Renderer — the answer still needs to be displayed</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Right! Both RAG and the Deep Agent use the Document Search actor. The only mode that skips it entirely is Baseline — it just asks the AI directly with no reference material."
+               data-explanation-wrong="Think about which modes actually read HVAC documents vs. which ones just rely on the AI's built-in knowledge.">
+            <h3 class="quiz-question">Which answer mode does NOT use the Document Search actor?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Baseline LLM — it answers purely from the AI's training data</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>RAG — it only uses climate data</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Deep Agent — it handles everything itself</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">How the Pieces Talk</h1>
+      <p class="module-subtitle">Data flows through this app like packages through a sorting facility. Let's trace the full journey from question to answer.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The three pipelines -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Three Pipelines, One App</h2>
+        <p>Each answer mode has its own pipeline — a different path the data takes from your question to the final answer. The simplest mode is a straight line; the most complex is a branching decision tree.</p>
+
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">&#x27A1;</div>
+            <h4 class="pattern-title">Baseline: Straight Line</h4>
+            <p class="pattern-desc">Query goes in, answer comes out. One hop: your question straight to the LLM. No documents, no climate data.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">&#x1F504;</div>
+            <h4 class="pattern-title">RAG: Two-Step</h4>
+            <p class="pattern-desc">First search documents, then ask the LLM with the evidence attached. Two hops: vector store, then LLM.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">&#x1F333;</div>
+            <h4 class="pattern-title">Deep Agent: Decision Tree</h4>
+            <p class="pattern-desc">The agent reads the query, decides whether to call climate first, then searches docs, then synthesizes. It chooses its own path.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: RAG pipeline code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Inside the RAG Pipeline</h2>
+        <p>The RAG mode is the heart of this app — it's the pattern that makes AI answers trustworthy. Here's the actual code that runs it:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">run_rag</span>(query: <span class="code-function">str</span>, top_k: <span class="code-function">int</span>):</span>
+<span class="code-line">    <span class="code-function">add_trace</span>(<span class="code-string">"RAG mode started"</span>)</span>
+<span class="code-line">    retrieval = <span class="code-function">search_hvac_docs</span>(query, top_k=top_k)</span>
+<span class="code-line">    <span class="code-keyword">if</span> retrieval[<span class="code-string">"results"</span>]:</span>
+<span class="code-line">        response = rag_llm.<span class="code-function">invoke</span>(</span>
+<span class="code-line">            rag_prompt.<span class="code-function">format_messages</span>(</span>
+<span class="code-line">                query=query,</span>
+<span class="code-line">                evidence_text=retrieval[<span class="code-string">"evidence_text"</span>]</span>
+<span class="code-line">        ))</span>
+<span class="code-line">        answer = <span class="code-function">message_to_text</span>(response)</span>
+<span class="code-line">    <span class="code-keyword">else</span>:</span>
+<span class="code-line">        answer = <span class="code-string">"I could not ground an answer..."</span></span>
+<span class="code-line">    <span class="code-keyword">return</span> {<span class="code-string">"answer"</span>: answer, ...}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Define the RAG pipeline — takes a question and how many docs to retrieve.</p>
+              <p class="tl">Log a breadcrumb so we can trace what happened later.</p>
+              <p class="tl">Search the HVAC document library for the most relevant chunks.</p>
+              <p class="tl">If we found any matching documents...</p>
+              <p class="tl">...send the question AND the evidence to the AI model together...</p>
+              <p class="tl">...using a pre-built template that tells the AI to only answer from the evidence...</p>
+              <p class="tl">...passing in the original question...</p>
+              <p class="tl">...and the actual document text we retrieved.</p>
+              <p class="tl">Wait for the AI to respond and extract the text.</p>
+              <p class="tl">Convert the AI's response into plain text.</p>
+              <p class="tl">But if no documents were found...</p>
+              <p class="tl">...honestly say the answer can't be grounded. No guessing!</p>
+              <p class="tl">Package everything up and return it.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: The prompt templates -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Secret Sauce: Prompt Templates</h2>
+        <p>The magic isn't just in the code — it's in the instructions given to the AI. Each mode gets different rules. Compare these two <span class="term" data-definition="A system prompt is a hidden set of instructions given to an AI before your question. It shapes the AI's personality and behavior — like briefing a consultant before a meeting: 'You are an HVAC expert. Only answer from the documents provided.'">system prompts</span>:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">BASELINE PROMPT</span>
+            <pre><code><span class="code-line"><span class="code-string">"You are an HVAC product expert</span></span>
+<span class="code-line"><span class="code-string"> helping with a demo. Answer</span></span>
+<span class="code-line"><span class="code-string"> directly, but do not pretend to</span></span>
+<span class="code-line"><span class="code-string"> have access to internal documents</span></span>
+<span class="code-line"><span class="code-string"> or unseen product manuals."</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">WHAT THIS MEANS</span>
+            <div class="translation-lines">
+              <p class="tl">Act like an HVAC expert...</p>
+              <p class="tl">...this is for a demonstration...</p>
+              <p class="tl">...give a straight answer...</p>
+              <p class="tl">...but don't fake having documents...</p>
+              <p class="tl">...or pretend you've read manuals you haven't.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">RAG PROMPT</span>
+            <pre><code><span class="code-line"><span class="code-string">"You are an HVAC product expert.</span></span>
+<span class="code-line"><span class="code-string"> Answer only from the retrieved</span></span>
+<span class="code-line"><span class="code-string"> evidence. If the evidence is</span></span>
+<span class="code-line"><span class="code-string"> incomplete, say so clearly. Cite</span></span>
+<span class="code-line"><span class="code-string"> filenames in square brackets such</span></span>
+<span class="code-line"><span class="code-string"> as [manual.pdf]."</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">WHAT THIS MEANS</span>
+            <div class="translation-lines">
+              <p class="tl">Same expert role...</p>
+              <p class="tl">...but ONLY use the documents we provide. No guessing.</p>
+              <p class="tl">If the documents don't cover the question...</p>
+              <p class="tl">...say so honestly instead of making something up.</p>
+              <p class="tl">Always tell the user which document...</p>
+              <p class="tl">...each piece of information came from.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Prompt Engineering is Architecture</strong>
+            <p>The difference between these two prompts is the difference between a guess and a grounded answer. When you're building AI tools, the <span class="term" data-definition="Prompt engineering is the practice of carefully crafting the instructions you give to an AI to control its behavior. Small changes in wording can dramatically change the output — like how a slightly different recipe produces a very different dish.">prompt</span> is as important as the code. Telling the AI "answer only from the evidence" and "cite filenames" is what makes RAG trustworthy.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Deep Agent decision logic -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Deep Agent Makes Its Own Decisions</h2>
+        <p>Unlike Baseline and RAG which follow fixed steps, the <span class="term" data-definition="A Deep Agent is an AI that can use tools autonomously. Instead of following a script, it reads your question, decides which tools to call (and in what order), then synthesizes the results. It's like giving a smart assistant access to a toolbox and letting them decide which tools to use.">Deep Agent</span> reads your question and decides what to do. Here's its instruction set:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">AGENT INSTRUCTIONS</span>
+            <pre><code><span class="code-line"><span class="code-string">"You have two tools:</span></span>
+<span class="code-line"><span class="code-string">- get_climate_profile: use when</span></span>
+<span class="code-line"><span class="code-string">  the query includes an explicit</span></span>
+<span class="code-line"><span class="code-string">  location</span></span>
+<span class="code-line"><span class="code-string">- search_hvac_docs_tool: use for</span></span>
+<span class="code-line"><span class="code-string">  product facts, model comparisons</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">Decision rules:</span></span>
+<span class="code-line"><span class="code-string">- If the query includes a location,</span></span>
+<span class="code-line"><span class="code-string">  first call get_climate_profile</span></span>
+<span class="code-line"><span class="code-string">- After climate lookup, call</span></span>
+<span class="code-line"><span class="code-string">  search_hvac_docs_tool"</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">You have two tools in your toolbox:</p>
+              <p class="tl">Tool 1 — Climate lookup: use this when someone mentions a city or place...</p>
+              <p class="tl">...because the weather there affects which HVAC equipment to recommend.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Tool 2 — Document search: use this for any product-specific question.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Here's your decision logic:</p>
+              <p class="tl">If you spot a location in the question...</p>
+              <p class="tl">...call the climate tool FIRST to get weather context.</p>
+              <p class="tl">Then, whether or not you used climate...</p>
+              <p class="tl">...always search the docs to back up your answer.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+
+        <div class="quiz-container" id="quiz-module3">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! The RAG prompt explicitly says 'answer only from the retrieved evidence' and 'cite filenames.' That constraint is what prevents the AI from making things up."
+               data-explanation-wrong="Think about what makes RAG trustworthy. It's not the model or the search — it's the instructions that force the AI to only use the evidence it was given and to show where each fact came from.">
+            <h3 class="quiz-question">What prevents the RAG mode from hallucinating product specs that don't exist?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A more expensive AI model with better memory</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The vector store filters out wrong answers</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The system prompt instructs it to only answer from retrieved evidence and cite sources</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Right! The Deep Agent autonomously decides which tools to use based on the query content. It reads your question, spots the location, and makes its own plan — unlike RAG which always follows the same two steps."
+               data-explanation-wrong="The key difference between RAG and the Deep Agent is autonomy. RAG always does the same thing (search, then answer). The Agent reads the query and makes its own decisions.">
+            <h3 class="quiz-question">A user asks about equipment for "a school in Anchorage, Alaska." What does the Deep Agent do that RAG mode cannot?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Search more documents at once</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Recognize the location, look up Alaska's freeze risk, and factor that into the recommendation</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Use a more powerful AI model for the final answer</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">The Outside World</h1>
+      <p class="module-subtitle">This app doesn't work alone — it reaches out to four external services. Understanding them helps you debug failures and control costs.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The four APIs -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Four Services, Four Lifelines</h2>
+        <p>Think of the app as a detective agency. It has smart analysts inside, but it depends on outside informants for data. If any informant goes silent, the case stalls. Here are the four external services this app calls:</p>
+
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">&#x1F4CD;</div>
+            <h4 class="pattern-title">Open-Meteo Geocoder</h4>
+            <p class="pattern-desc">Converts a city name like "Phoenix, Arizona" into GPS coordinates (lat/lon). Free, no API key needed.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">&#x1F30D;</div>
+            <h4 class="pattern-title">Nominatim (Backup)</h4>
+            <p class="pattern-desc">OpenStreetMap's geocoder — a second opinion if Open-Meteo can't find the location. Also free.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">&#x1F321;</div>
+            <h4 class="pattern-title">Open-Meteo Climate Archive</h4>
+            <p class="pattern-desc">Returns 10 years of daily temperature and precipitation data for any GPS coordinate. Free, no key.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">&#x1F511;</div>
+            <h4 class="pattern-title">OpenAI (Vector Store + LLM)</h4>
+            <p class="pattern-desc">Two services in one: the vector store searches HVAC documents, and the LLM generates answers. Requires an API key and costs money per request.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Geocoding code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">How Location Lookup Works</h2>
+        <p>Converting "Phoenix Arizona" into GPS coordinates sounds simple, but humans type locations in messy ways. The app tries multiple variations of the input to maximize its chances:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">geocode_location</span>(location: <span class="code-function">str</span>):</span>
+<span class="code-line">    attempted = []</span>
+<span class="code-line">    <span class="code-keyword">for</span> candidate <span class="code-keyword">in</span> <span class="code-function">candidate_location_queries</span>(location):</span>
+<span class="code-line">        attempted.<span class="code-function">append</span>(candidate)</span>
+<span class="code-line">        geo = <span class="code-function">http_get_json</span>(</span>
+<span class="code-line">            <span class="code-string">"https://geocoding-api.open-meteo.com/v1/search"</span>,</span>
+<span class="code-line">            {<span class="code-string">"name"</span>: candidate, <span class="code-string">"count"</span>: <span class="code-number">3</span>},</span>
+<span class="code-line">        )</span>
+<span class="code-line">        matches = geo.<span class="code-function">get</span>(<span class="code-string">"results"</span>) <span class="code-keyword">or</span> []</span>
+<span class="code-line">        <span class="code-keyword">if</span> matches:</span>
+<span class="code-line">            <span class="code-keyword">return</span> matches[<span class="code-number">0</span>], attempted</span>
+<span class="code-line">    <span class="code-comment"># If Open-Meteo fails, try Nominatim...</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Define a function that turns a city name into coordinates.</p>
+              <p class="tl">Keep a list of everything we tried (for debugging later).</p>
+              <p class="tl">Generate several ways to spell/format the location and try each one.</p>
+              <p class="tl">Record each attempt in our tried-list.</p>
+              <p class="tl">Call the Open-Meteo geocoding API...</p>
+              <p class="tl">...with the search endpoint...</p>
+              <p class="tl">...asking for up to 3 matches.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Pull out the results (or an empty list if none).</p>
+              <p class="tl">If we got at least one match...</p>
+              <p class="tl">...return the best one plus our attempt log. Done!</p>
+              <p class="tl">If Open-Meteo struck out on all variants, fall back to Nominatim.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Climate data pipeline -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">From Raw Weather to HVAC Advice</h2>
+        <p>Once we have GPS coordinates, the app pulls 10 years of daily weather data and boils it down to HVAC-relevant insights. Here's the transformation pipeline:</p>
+
+        <div class="step-cards stagger-children">
+          <div class="step-card animate-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Fetch 10 Years of Daily Data</strong>
+              <p>Calls Open-Meteo's archive <span class="term" data-definition="An API (Application Programming Interface) is a way for one program to talk to another. Like a waiter who takes your order to the kitchen and brings back your food — you don't go into the kitchen yourself, you just tell the waiter what you want.">API</span> for daily high temperatures, low temperatures, and precipitation from the last decade.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Build a Monthly Summary</strong>
+              <p>Groups all 3,650+ days by month and calculates averages. This smooths out weird weather days and reveals the true climate pattern.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Extract Key Metrics</strong>
+              <p>Finds the hottest month's average high, the coldest month's average low, annual precipitation, and typical daily temperature range — all converted to Fahrenheit and inches.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Generate HVAC Notes</strong>
+              <p>Rules-based logic translates weather numbers into maintenance advice. Example: "Hottest month above 90F" triggers "Prioritize condenser coil cleaning before summer."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Data Pipelines Are Everywhere</strong>
+            <p>This fetch-transform-summarize pattern is called a <span class="term" data-definition="A data pipeline is a series of steps that takes raw data, cleans it up, transforms it, and produces something useful. Like a factory assembly line: raw materials go in one end, finished products come out the other.">data pipeline</span>. Almost every AI application has one. Raw data from an external API is rarely useful on its own — it needs to be cleaned, aggregated, and translated into something your application can use. When directing AI tools to build data features, always think: what's the raw input, what transformations are needed, and what's the useful output?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Vector store search -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">How Document Search Works</h2>
+        <p>The <span class="term" data-definition="A vector store is like a library with a very smart librarian. Instead of matching exact words, it understands meaning. Ask for 'cooling capacity' and it finds documents about BTU ratings, even though those words are completely different. It works by converting text into mathematical patterns that capture the meaning.">vector store</span> is where the HVAC product manuals live. Here's how a search actually happens:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line">response = openai_client.vector_stores.<span class="code-function">search</span>(</span>
+<span class="code-line">    vector_store_id=OPENAI_VECTOR_STORE_ID,</span>
+<span class="code-line">    query=query,</span>
+<span class="code-line">    max_num_results=<span class="code-function">int</span>(top_k),</span>
+<span class="code-line">    rewrite_query=<span class="code-keyword">True</span>,</span>
+<span class="code-line">)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Ask OpenAI's vector store to search our HVAC document library.</p>
+              <p class="tl">Tell it which library to search (identified by a unique ID).</p>
+              <p class="tl">Send the user's question as the search query.</p>
+              <p class="tl">Only return the top K most relevant chunks (default: 4).</p>
+              <p class="tl">Let OpenAI rephrase the query for better search results.</p>
+              <p class="tl">&nbsp;</p>
+            </div>
+          </div>
+        </div>
+
+        <p>Each result comes back with a filename, a relevance score (0 to 1), and a text snippet — like a search engine result, but for internal documents.</p>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! The three free services (Open-Meteo geocoder, Nominatim, and Open-Meteo archive) don't need API keys. Only OpenAI requires authentication and costs money per request."
+               data-explanation-wrong="Think about which services are free and open vs. which ones require credentials. The climate and geocoding APIs are community-maintained and free — the AI model and document store are commercial.">
+            <h3 class="quiz-question">The app stops working and you see "Missing OPENAI_API_KEY." Which features still work?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nothing — everything depends on OpenAI</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Climate lookup still works — it uses free Open-Meteo APIs, not OpenAI</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Document search still works — it's stored locally</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Right! The rewrite_query=True parameter tells OpenAI to intelligently rephrase the user's question for better search results. This is especially useful when users ask questions in natural language that don't match the vocabulary in the technical documents."
+               data-explanation-wrong="Look at the search parameters closely. One of them is specifically about improving the quality of the search by letting OpenAI reinterpret the question before searching.">
+            <h3 class="quiz-question">What does the rewrite_query=True parameter do in the vector store search?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Translates the query into a different language</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Fixes spelling mistakes in the query</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Lets OpenAI rephrase the question for better document matches</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">The Clever Tricks</h1>
+      <p class="module-subtitle">The difference between a prototype and production code is the small details. Here are the engineering patterns that make this app robust.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: Geocoding retry strategy -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Location Guessing Game</h2>
+        <p>Humans type locations in chaotic ways: "phoenix az", "Phoenix, Arizona", "phoenix arizona usa". The app handles this with a clever variant generator — like a post office clerk who tries different interpretations of a badly-written address:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">candidate_location_queries</span>(location):</span>
+<span class="code-line">    cleaned = <span class="code-string">" "</span>.<span class="code-function">join</span>(location.<span class="code-function">replace</span>(<span class="code-string">","</span>, <span class="code-string">" "</span>).<span class="code-function">split</span>())</span>
+<span class="code-line">    variants = []</span>
+<span class="code-line">    <span class="code-function">add_variant</span>(location.<span class="code-function">strip</span>())</span>
+<span class="code-line">    <span class="code-function">add_variant</span>(cleaned)</span>
+<span class="code-line">    tokens = cleaned.<span class="code-function">split</span>()</span>
+<span class="code-line">    <span class="code-keyword">if</span> <span class="code-function">len</span>(tokens) >= <span class="code-number">2</span>:</span>
+<span class="code-line">        <span class="code-keyword">for</span> tail_size <span class="code-keyword">in</span> (<span class="code-number">3</span>, <span class="code-number">2</span>, <span class="code-number">1</span>):</span>
+<span class="code-line">            state_part = <span class="code-string">" "</span>.<span class="code-function">join</span>(tokens[-tail_size:])</span>
+<span class="code-line">            <span class="code-keyword">if</span> state_part.<span class="code-function">lower</span>() <span class="code-keyword">in</span> US_STATE_NAMES:</span>
+<span class="code-line">                <span class="code-function">add_variant</span>(<span class="code-string">f"</span>{city_part}<span class="code-string">, </span>{state_part}<span class="code-string">"</span>)</span>
+<span class="code-line">                <span class="code-keyword">break</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Generate multiple ways to search for a location.</p>
+              <p class="tl">First, normalize: remove commas, collapse extra spaces.</p>
+              <p class="tl">Start collecting different formatted versions.</p>
+              <p class="tl">Try the exact input as-is (maybe it already works).</p>
+              <p class="tl">Try the cleaned-up version too.</p>
+              <p class="tl">Split into individual words to analyze the structure.</p>
+              <p class="tl">If there are at least 2 words (likely city + state)...</p>
+              <p class="tl">...check if the last 3, 2, or 1 words are a US state name...</p>
+              <p class="tl">...by looking at the end of the input...</p>
+              <p class="tl">...and comparing against all 50 state names.</p>
+              <p class="tl">If it matches, format as "City, State" with a comma.</p>
+              <p class="tl">Stop checking once we find a state match.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Input Normalization</strong>
+            <p>This technique is called <span class="term" data-definition="Input normalization is cleaning up user input into a standard format before processing it. Users type things in wildly different ways — normalization ensures your code can handle all of them by converting them to a consistent format first.">input normalization</span>. Users will always surprise you with how they format things. Instead of demanding perfect input, good code adapts. When telling AI to build user-facing features, always specify: "handle messy input gracefully."</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Climate-to-maintenance mapping -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Turning Weather into Maintenance Advice</h2>
+        <p>Raw temperature numbers are useless to an HVAC decision-maker. The app uses <span class="term" data-definition="Rules-based logic is a set of if-then conditions that translate data into decisions. Unlike AI which learns patterns from data, rules-based logic follows explicit human-written criteria. It's predictable and easy to audit — you can trace exactly why a decision was made.">rules-based logic</span> to translate climate data into actionable maintenance notes — like a doctor translating blood test numbers into health recommendations:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">build_maintenance_notes</span>(hottest_month_avg_high_f,</span>
+<span class="code-line">        coldest_month_avg_low_f, annual_precip_in):</span>
+<span class="code-line">    notes = []</span>
+<span class="code-line">    <span class="code-keyword">if</span> hottest_month_avg_high_f >= <span class="code-number">90</span>:</span>
+<span class="code-line">        notes.<span class="code-function">append</span>(<span class="code-string">"Prioritize condenser coil</span></span>
+<span class="code-line"><span class="code-string">            cleaning and refrigerant charge</span></span>
+<span class="code-line"><span class="code-string">            verification before summer."</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> coldest_month_avg_low_f <= <span class="code-number">32</span>:</span>
+<span class="code-line">        notes.<span class="code-function">append</span>(<span class="code-string">"Include freeze-stat checks</span></span>
+<span class="code-line"><span class="code-string">            and drain-pan protection</span></span>
+<span class="code-line"><span class="code-string">            before winter."</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> annual_precip_in <= <span class="code-number">15</span>:</span>
+<span class="code-line">        notes.<span class="code-function">append</span>(<span class="code-string">"Check filters for dust</span></span>
+<span class="code-line"><span class="code-string">            accumulation in dry conditions."</span>)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Given climate stats, generate maintenance recommendations.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Start with an empty list of recommendations.</p>
+              <p class="tl">If the hottest month averages 90F or above...</p>
+              <p class="tl">...recommend pre-summer maintenance:</p>
+              <p class="tl">clean cooling coils and check refrigerant levels</p>
+              <p class="tl">to handle peak cooling demand.</p>
+              <p class="tl">If the coldest month dips to freezing or below...</p>
+              <p class="tl">...recommend winter prep:</p>
+              <p class="tl">check freeze protection and drain systems</p>
+              <p class="tl">to prevent ice damage.</p>
+              <p class="tl">If annual rainfall is under 15 inches (dry climate)...</p>
+              <p class="tl">...recommend extra filter attention</p>
+              <p class="tl">because dry air carries more dust.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Evidence dedup + trace logging -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Deduplication &amp; Trace Logging</h2>
+        <p>The Deep Agent might search documents multiple times with different queries. Without deduplication, you'd see the same document chunk repeated in the results. Here's how the app prevents that — like a librarian removing duplicate copies before handing you a reading list:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line">unique_evidence = []</span>
+<span class="code-line">seen = <span class="code-function">set</span>()</span>
+<span class="code-line"><span class="code-keyword">for</span> item <span class="code-keyword">in</span> tool_evidence:</span>
+<span class="code-line">    key = (item.<span class="code-function">get</span>(<span class="code-string">"file_id"</span>),</span>
+<span class="code-line">           item.<span class="code-function">get</span>(<span class="code-string">"snippet"</span>))</span>
+<span class="code-line">    <span class="code-keyword">if</span> key <span class="code-keyword">in</span> seen:</span>
+<span class="code-line">        <span class="code-keyword">continue</span></span>
+<span class="code-line">    seen.<span class="code-function">add</span>(key)</span>
+<span class="code-line">    unique_evidence.<span class="code-function">append</span>(item)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Start a clean list for unique results only.</p>
+              <p class="tl">Create a "seen before" checklist (a set — very fast to search).</p>
+              <p class="tl">Go through every document chunk the agent found...</p>
+              <p class="tl">...create a fingerprint from the file ID...</p>
+              <p class="tl">...and the text snippet (same file + same text = duplicate).</p>
+              <p class="tl">If we've already seen this exact fingerprint...</p>
+              <p class="tl">...skip it. Don't add it again.</p>
+              <p class="tl">Otherwise, mark it as seen...</p>
+              <p class="tl">...and add it to our clean list.</p>
+            </div>
+          </div>
+        </div>
+
+        <p>Meanwhile, every major action gets logged to a trace — a timeline of what happened and when. This is invaluable for debugging:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line">TRACE_LOG = []</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">add_trace</span>(message: <span class="code-function">str</span>) -> <span class="code-keyword">None</span>:</span>
+<span class="code-line">    timestamp = datetime.<span class="code-function">now</span>().<span class="code-function">strftime</span>(<span class="code-string">"%H:%M:%S"</span>)</span>
+<span class="code-line">    TRACE_LOG.<span class="code-function">append</span>(<span class="code-string">f"</span>{timestamp}<span class="code-string"> | </span>{message}<span class="code-string">"</span>)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Create a global list to track everything that happens.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Define a helper to add an entry to the log.</p>
+              <p class="tl">Stamp each entry with the current time (hours:minutes:seconds).</p>
+              <p class="tl">Add the timestamped message to the log list.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Observability Is a Superpower</strong>
+            <p><span class="term" data-definition="Observability means being able to see what's happening inside your running application. Logs, traces, and metrics let you understand the internal state without guessing — like having a dashboard camera in your car vs. trying to remember what happened after an accident.">Observability</span> — the ability to see what your app is doing — separates debuggable systems from mysterious ones. When directing AI to build features, always ask: "add logging at each major step." Future-you will thank present-you when something breaks at 2 AM.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Drag and drop matching -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Match the Pattern</h2>
+        <p>Drag each engineering pattern to its description. These patterns appear across almost every professional codebase, not just this one.</p>
+
+        <div class="dnd-container" id="dnd-module5">
+          <div class="dnd-chips">
+            <div class="dnd-chip" draggable="true" data-answer="fallback">Fallback Chain</div>
+            <div class="dnd-chip" draggable="true" data-answer="dedup">Deduplication</div>
+            <div class="dnd-chip" draggable="true" data-answer="normalize">Input Normalization</div>
+            <div class="dnd-chip" draggable="true" data-answer="trace">Trace Logging</div>
+          </div>
+          <div class="dnd-zones">
+            <div class="dnd-zone" data-correct="normalize">
+              <p class="dnd-zone-label">Cleaning up messy user input into a standard format before processing it</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+            <div class="dnd-zone" data-correct="fallback">
+              <p class="dnd-zone-label">Trying multiple approaches in order, moving to the next if one fails</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+            <div class="dnd-zone" data-correct="dedup">
+              <p class="dnd-zone-label">Removing duplicate results using a fingerprint-based seen-before check</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+            <div class="dnd-zone" data-correct="trace">
+              <p class="dnd-zone-label">Recording timestamped events so you can reconstruct what happened</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+          </div>
+          <div style="margin-top: var(--space-4); display: flex; gap: var(--space-3);">
+            <button class="btn btn-primary" onclick="checkDnD('dnd-module5')">Check Matches</button>
+            <button class="btn" onclick="resetDnD('dnd-module5')">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Final quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Final Check</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! The app generates multiple formatted variants (with commas, with state names, with USA appended) and tries each one against two different geocoding services. This maximizes the chance of finding a match no matter how the user typed it."
+               data-explanation-wrong="Think about the candidate_location_queries function. It doesn't just try the raw input — it generates several reformatted versions and tries them all, using two different geocoding APIs as backup.">
+            <h3 class="quiz-question">A user types "new york" (no comma, no state). How does the app handle this?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It fails — the input needs to be formatted as "City, State"</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It generates variants like "new york", "New York", "New York, USA" and tries each one</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It asks the user to re-enter the location in the correct format</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Right! The trace log creates a timestamped record of every major action: which tools were called, what the geocoder tried, how many documents were found. This makes it possible to see exactly what happened and where things went wrong."
+               data-explanation-wrong="Think about what the trace log captures. Each add_trace() call records what the app is doing and when — climate lookups, document searches, geocoding retries. It's a flight recorder for the entire pipeline.">
+            <h3 class="quiz-question">The Deep Agent gives a weird answer for a Denver query. Where do you look first to debug?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The Agent Steps trace — it shows every tool call with timestamps</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The system prompt — it might have wrong instructions</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The climate API documentation — it might be returning wrong data</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! The deduplication uses a (file_id, snippet) tuple as a fingerprint. If both match, it's a duplicate. But two different snippets from the same file are NOT duplicates — they contain different information and both belong in the results."
+               data-explanation-wrong="Look at how the deduplication key is built: it's (file_id, snippet). Both fields must match for something to be considered a duplicate. Same file but different text? Different information — keep both.">
+            <h3 class="quiz-question">The agent searches twice and gets two results from the same file but with different text snippets. What happens?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Both are removed — same file means duplicate</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Only the higher-scored one is kept</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Both are kept — different snippets mean different information, even from the same file</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+  </main>
+
+</body>
+</html>

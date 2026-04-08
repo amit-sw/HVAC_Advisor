@@ -1,0 +1,178 @@
+
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">What This App Does</h1>
+      <p class="module-subtitle">You ask an HVAC question. The app gives you three answers of increasing quality. Here's why that matters.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The product -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">An HVAC Expert You Can Ask Anything</h2>
+        <p>Imagine you're choosing a rooftop air conditioning unit for a building in Phoenix, Arizona. You could spend hours reading product manuals — or you could type a question in plain English and get an expert-level answer backed by real documentation.</p>
+        <p>That's what this app does. It's built as a <span class="term" data-definition="A Colab notebook is a free, browser-based coding environment from Google. Think of it as a smart document where you can write instructions and immediately see the results — no software to install.">Google Colab notebook</span> that connects to <span class="term" data-definition="OpenAI is the company behind ChatGPT. Their API lets other programs send questions to their AI models and get answers back — like texting a very smart assistant.">OpenAI's AI models</span> and a library of HVAC product documents.</p>
+
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">&#x1F4AC;</div>
+            <h4 class="pattern-title">Ask in Plain English</h4>
+            <p class="pattern-desc">Type any HVAC question — product comparisons, maintenance advice, model recommendations.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">&#x1F30D;</div>
+            <h4 class="pattern-title">Location-Aware</h4>
+            <p class="pattern-desc">Mention a city and the app automatically looks up climate data to tailor its advice.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">&#x1F4DA;</div>
+            <h4 class="pattern-title">Document-Backed</h4>
+            <p class="pattern-desc">Answers cite real HVAC product manuals, not guesses — so you can verify every claim.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: The three modes -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Three Answers, Three Levels of Smarts</h2>
+        <p>The app doesn't just give you one answer — it shows you three, side by side, so you can see the difference between a basic AI guess and a deeply grounded recommendation. Think of it like asking three different consultants:</p>
+
+        <div class="step-cards stagger-children">
+          <div class="step-card animate-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Baseline LLM — The Generalist</strong>
+              <p>Asks the AI directly with no reference material. Like asking a smart friend who hasn't read the manuals — they'll give a reasonable answer, but might make things up.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>RAG — The Researcher</strong>
+              <p>First searches HVAC product documents, then feeds the relevant snippets to the AI. Like a consultant who reads the manuals before answering — grounded, with citations.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Deep Agent — The Senior Expert</strong>
+              <p>An autonomous agent that decides what to do: checks if the question mentions a location, looks up climate data, searches documents, and synthesizes everything. Like a senior engineer who knows what questions to ask before answering yours.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Trace a real query -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Tracing a Real Query</h2>
+        <p>Let's follow what happens when you type: <em>"Which chiller model do you recommend for a residence in Phoenix, Arizona?"</em></p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"You type the question and click Run Demo"},
+          {"highlight":"flow-actor-2","label":"Deep Agent reads the query and spots Phoenix, Arizona","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-3","label":"Agent calls the Climate Tool to get Phoenix weather data","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-3","label":"Climate tool returns: hot summers (107F highs), mild winters, dry climate"},
+          {"highlight":"flow-actor-4","label":"Agent searches HVAC documents for chiller recommendations","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-4","label":"Vector store returns matching product manual excerpts with relevance scores"},
+          {"highlight":"flow-actor-2","label":"Agent combines climate context + document evidence into a final answer","packet":true,"from":"actor-4","to":"actor-2"},
+          {"highlight":"flow-actor-5","label":"Answer is displayed with citations, climate profile, and step trace","packet":true,"from":"actor-2","to":"actor-5"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">&#x1F464;</div>
+              <span>You</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">&#x1F916;</div>
+              <span>Deep Agent</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">&#x1F321;</div>
+              <span>Climate Tool</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">&#x1F4DA;</div>
+              <span>Doc Search</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">&#x1F4BB;</div>
+              <span>Display</span>
+            </div>
+          </div>
+          <div class="flow-packet"></div>
+          <div class="flow-step-label">Click "Next Step" to begin</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Next Step</button>
+            <button class="btn flow-reset-btn">Restart</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Why this matters callout + quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Why Should You Care?</h2>
+
+        <div class="callout callout-accent">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Power of RAG</strong>
+            <p><span class="term" data-definition="RAG stands for Retrieval-Augmented Generation. Instead of asking an AI to answer from memory (which can be wrong), you first search a document library for relevant information, then feed those documents to the AI so it can base its answer on real evidence.">RAG (Retrieval-Augmented Generation)</span> is one of the most important patterns in modern AI. It's the difference between an AI that guesses and one that cites sources. If you're building AI tools, understanding RAG is essential — it's how you make AI trustworthy.</p>
+          </div>
+        </div>
+
+        <div class="quiz-container" id="quiz-module1">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! The Deep Agent is the only mode that can detect a location, fetch climate data, AND search documents — then combine both into a tailored answer."
+               data-explanation-wrong="Not quite. Think about which mode can both understand location context AND search product documents. The Baseline has no documents, and RAG searches documents but has no climate awareness.">
+            <h3 class="quiz-question">A customer asks: "What rooftop unit works best for Miami's humidity?" Which mode would give the most useful answer?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Baseline LLM — it knows about Miami</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>RAG — it can search the product manuals</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Deep Agent — it can look up Miami's climate AND search the manuals</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! RAG searches documents first, then builds the answer from what it finds. That's why it can cite specific filenames — it's reading before answering."
+               data-explanation-wrong="Think about the order of operations. RAG doesn't memorize documents — it searches them fresh for each question, then hands the results to the AI to compose an answer.">
+            <h3 class="quiz-question">Why can RAG mode cite specific filenames like [manual.pdf] in its answers?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The AI memorized all the document names during training</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It searches real documents first, then includes what it found in the answer</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The filenames are hardcoded into the system prompt</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

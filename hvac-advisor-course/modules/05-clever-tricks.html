@@ -1,0 +1,287 @@
+
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">The Clever Tricks</h1>
+      <p class="module-subtitle">The difference between a prototype and production code is the small details. Here are the engineering patterns that make this app robust.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: Geocoding retry strategy -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Location Guessing Game</h2>
+        <p>Humans type locations in chaotic ways: "phoenix az", "Phoenix, Arizona", "phoenix arizona usa". The app handles this with a clever variant generator — like a post office clerk who tries different interpretations of a badly-written address:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">candidate_location_queries</span>(location):</span>
+<span class="code-line">    cleaned = <span class="code-string">" "</span>.<span class="code-function">join</span>(location.<span class="code-function">replace</span>(<span class="code-string">","</span>, <span class="code-string">" "</span>).<span class="code-function">split</span>())</span>
+<span class="code-line">    variants = []</span>
+<span class="code-line">    <span class="code-function">add_variant</span>(location.<span class="code-function">strip</span>())</span>
+<span class="code-line">    <span class="code-function">add_variant</span>(cleaned)</span>
+<span class="code-line">    tokens = cleaned.<span class="code-function">split</span>()</span>
+<span class="code-line">    <span class="code-keyword">if</span> <span class="code-function">len</span>(tokens) >= <span class="code-number">2</span>:</span>
+<span class="code-line">        <span class="code-keyword">for</span> tail_size <span class="code-keyword">in</span> (<span class="code-number">3</span>, <span class="code-number">2</span>, <span class="code-number">1</span>):</span>
+<span class="code-line">            state_part = <span class="code-string">" "</span>.<span class="code-function">join</span>(tokens[-tail_size:])</span>
+<span class="code-line">            <span class="code-keyword">if</span> state_part.<span class="code-function">lower</span>() <span class="code-keyword">in</span> US_STATE_NAMES:</span>
+<span class="code-line">                <span class="code-function">add_variant</span>(<span class="code-string">f"</span>{city_part}<span class="code-string">, </span>{state_part}<span class="code-string">"</span>)</span>
+<span class="code-line">                <span class="code-keyword">break</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Generate multiple ways to search for a location.</p>
+              <p class="tl">First, normalize: remove commas, collapse extra spaces.</p>
+              <p class="tl">Start collecting different formatted versions.</p>
+              <p class="tl">Try the exact input as-is (maybe it already works).</p>
+              <p class="tl">Try the cleaned-up version too.</p>
+              <p class="tl">Split into individual words to analyze the structure.</p>
+              <p class="tl">If there are at least 2 words (likely city + state)...</p>
+              <p class="tl">...check if the last 3, 2, or 1 words are a US state name...</p>
+              <p class="tl">...by looking at the end of the input...</p>
+              <p class="tl">...and comparing against all 50 state names.</p>
+              <p class="tl">If it matches, format as "City, State" with a comma.</p>
+              <p class="tl">Stop checking once we find a state match.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Input Normalization</strong>
+            <p>This technique is called <span class="term" data-definition="Input normalization is cleaning up user input into a standard format before processing it. Users type things in wildly different ways — normalization ensures your code can handle all of them by converting them to a consistent format first.">input normalization</span>. Users will always surprise you with how they format things. Instead of demanding perfect input, good code adapts. When telling AI to build user-facing features, always specify: "handle messy input gracefully."</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Climate-to-maintenance mapping -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Turning Weather into Maintenance Advice</h2>
+        <p>Raw temperature numbers are useless to an HVAC decision-maker. The app uses <span class="term" data-definition="Rules-based logic is a set of if-then conditions that translate data into decisions. Unlike AI which learns patterns from data, rules-based logic follows explicit human-written criteria. It's predictable and easy to audit — you can trace exactly why a decision was made.">rules-based logic</span> to translate climate data into actionable maintenance notes — like a doctor translating blood test numbers into health recommendations:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">build_maintenance_notes</span>(hottest_month_avg_high_f,</span>
+<span class="code-line">        coldest_month_avg_low_f, annual_precip_in):</span>
+<span class="code-line">    notes = []</span>
+<span class="code-line">    <span class="code-keyword">if</span> hottest_month_avg_high_f >= <span class="code-number">90</span>:</span>
+<span class="code-line">        notes.<span class="code-function">append</span>(<span class="code-string">"Prioritize condenser coil</span></span>
+<span class="code-line"><span class="code-string">            cleaning and refrigerant charge</span></span>
+<span class="code-line"><span class="code-string">            verification before summer."</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> coldest_month_avg_low_f <= <span class="code-number">32</span>:</span>
+<span class="code-line">        notes.<span class="code-function">append</span>(<span class="code-string">"Include freeze-stat checks</span></span>
+<span class="code-line"><span class="code-string">            and drain-pan protection</span></span>
+<span class="code-line"><span class="code-string">            before winter."</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> annual_precip_in <= <span class="code-number">15</span>:</span>
+<span class="code-line">        notes.<span class="code-function">append</span>(<span class="code-string">"Check filters for dust</span></span>
+<span class="code-line"><span class="code-string">            accumulation in dry conditions."</span>)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Given climate stats, generate maintenance recommendations.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Start with an empty list of recommendations.</p>
+              <p class="tl">If the hottest month averages 90F or above...</p>
+              <p class="tl">...recommend pre-summer maintenance:</p>
+              <p class="tl">clean cooling coils and check refrigerant levels</p>
+              <p class="tl">to handle peak cooling demand.</p>
+              <p class="tl">If the coldest month dips to freezing or below...</p>
+              <p class="tl">...recommend winter prep:</p>
+              <p class="tl">check freeze protection and drain systems</p>
+              <p class="tl">to prevent ice damage.</p>
+              <p class="tl">If annual rainfall is under 15 inches (dry climate)...</p>
+              <p class="tl">...recommend extra filter attention</p>
+              <p class="tl">because dry air carries more dust.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Evidence dedup + trace logging -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Deduplication &amp; Trace Logging</h2>
+        <p>The Deep Agent might search documents multiple times with different queries. Without deduplication, you'd see the same document chunk repeated in the results. Here's how the app prevents that — like a librarian removing duplicate copies before handing you a reading list:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line">unique_evidence = []</span>
+<span class="code-line">seen = <span class="code-function">set</span>()</span>
+<span class="code-line"><span class="code-keyword">for</span> item <span class="code-keyword">in</span> tool_evidence:</span>
+<span class="code-line">    key = (item.<span class="code-function">get</span>(<span class="code-string">"file_id"</span>),</span>
+<span class="code-line">           item.<span class="code-function">get</span>(<span class="code-string">"snippet"</span>))</span>
+<span class="code-line">    <span class="code-keyword">if</span> key <span class="code-keyword">in</span> seen:</span>
+<span class="code-line">        <span class="code-keyword">continue</span></span>
+<span class="code-line">    seen.<span class="code-function">add</span>(key)</span>
+<span class="code-line">    unique_evidence.<span class="code-function">append</span>(item)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Start a clean list for unique results only.</p>
+              <p class="tl">Create a "seen before" checklist (a set — very fast to search).</p>
+              <p class="tl">Go through every document chunk the agent found...</p>
+              <p class="tl">...create a fingerprint from the file ID...</p>
+              <p class="tl">...and the text snippet (same file + same text = duplicate).</p>
+              <p class="tl">If we've already seen this exact fingerprint...</p>
+              <p class="tl">...skip it. Don't add it again.</p>
+              <p class="tl">Otherwise, mark it as seen...</p>
+              <p class="tl">...and add it to our clean list.</p>
+            </div>
+          </div>
+        </div>
+
+        <p>Meanwhile, every major action gets logged to a trace — a timeline of what happened and when. This is invaluable for debugging:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line">TRACE_LOG = []</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">add_trace</span>(message: <span class="code-function">str</span>) -> <span class="code-keyword">None</span>:</span>
+<span class="code-line">    timestamp = datetime.<span class="code-function">now</span>().<span class="code-function">strftime</span>(<span class="code-string">"%H:%M:%S"</span>)</span>
+<span class="code-line">    TRACE_LOG.<span class="code-function">append</span>(<span class="code-string">f"</span>{timestamp}<span class="code-string"> | </span>{message}<span class="code-string">"</span>)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Create a global list to track everything that happens.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Define a helper to add an entry to the log.</p>
+              <p class="tl">Stamp each entry with the current time (hours:minutes:seconds).</p>
+              <p class="tl">Add the timestamped message to the log list.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Observability Is a Superpower</strong>
+            <p><span class="term" data-definition="Observability means being able to see what's happening inside your running application. Logs, traces, and metrics let you understand the internal state without guessing — like having a dashboard camera in your car vs. trying to remember what happened after an accident.">Observability</span> — the ability to see what your app is doing — separates debuggable systems from mysterious ones. When directing AI to build features, always ask: "add logging at each major step." Future-you will thank present-you when something breaks at 2 AM.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Drag and drop matching -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Match the Pattern</h2>
+        <p>Drag each engineering pattern to its description. These patterns appear across almost every professional codebase, not just this one.</p>
+
+        <div class="dnd-container" id="dnd-module5">
+          <div class="dnd-chips">
+            <div class="dnd-chip" draggable="true" data-answer="fallback">Fallback Chain</div>
+            <div class="dnd-chip" draggable="true" data-answer="dedup">Deduplication</div>
+            <div class="dnd-chip" draggable="true" data-answer="normalize">Input Normalization</div>
+            <div class="dnd-chip" draggable="true" data-answer="trace">Trace Logging</div>
+          </div>
+          <div class="dnd-zones">
+            <div class="dnd-zone" data-correct="normalize">
+              <p class="dnd-zone-label">Cleaning up messy user input into a standard format before processing it</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+            <div class="dnd-zone" data-correct="fallback">
+              <p class="dnd-zone-label">Trying multiple approaches in order, moving to the next if one fails</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+            <div class="dnd-zone" data-correct="dedup">
+              <p class="dnd-zone-label">Removing duplicate results using a fingerprint-based seen-before check</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+            <div class="dnd-zone" data-correct="trace">
+              <p class="dnd-zone-label">Recording timestamped events so you can reconstruct what happened</p>
+              <div class="dnd-zone-target">Drop here</div>
+            </div>
+          </div>
+          <div style="margin-top: var(--space-4); display: flex; gap: var(--space-3);">
+            <button class="btn btn-primary" onclick="checkDnD('dnd-module5')">Check Matches</button>
+            <button class="btn" onclick="resetDnD('dnd-module5')">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Final quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Final Check</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! The app generates multiple formatted variants (with commas, with state names, with USA appended) and tries each one against two different geocoding services. This maximizes the chance of finding a match no matter how the user typed it."
+               data-explanation-wrong="Think about the candidate_location_queries function. It doesn't just try the raw input — it generates several reformatted versions and tries them all, using two different geocoding APIs as backup.">
+            <h3 class="quiz-question">A user types "new york" (no comma, no state). How does the app handle this?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It fails — the input needs to be formatted as "City, State"</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It generates variants like "new york", "New York", "New York, USA" and tries each one</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It asks the user to re-enter the location in the correct format</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Right! The trace log creates a timestamped record of every major action: which tools were called, what the geocoder tried, how many documents were found. This makes it possible to see exactly what happened and where things went wrong."
+               data-explanation-wrong="Think about what the trace log captures. Each add_trace() call records what the app is doing and when — climate lookups, document searches, geocoding retries. It's a flight recorder for the entire pipeline.">
+            <h3 class="quiz-question">The Deep Agent gives a weird answer for a Denver query. Where do you look first to debug?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The Agent Steps trace — it shows every tool call with timestamps</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The system prompt — it might have wrong instructions</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The climate API documentation — it might be returning wrong data</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! The deduplication uses a (file_id, snippet) tuple as a fingerprint. If both match, it's a duplicate. But two different snippets from the same file are NOT duplicates — they contain different information and both belong in the results."
+               data-explanation-wrong="Look at how the deduplication key is built: it's (file_id, snippet). Both fields must match for something to be considered a duplicate. Same file but different text? Different information — keep both.">
+            <h3 class="quiz-question">The agent searches twice and gets two results from the same file but with different text snippets. What happens?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Both are removed — same file means duplicate</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Only the higher-scored one is kept</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Both are kept — different snippets mean different information, even from the same file</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

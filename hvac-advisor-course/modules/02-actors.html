@@ -1,0 +1,242 @@
+
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">Meet the Cast</h1>
+      <p class="module-subtitle">Every app is a team effort. Here are the five key players in this HVAC advisor and what each one is responsible for.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The actors -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Five Players, One Goal</h2>
+        <p>Think of this app like a consulting firm. Each department has a specialty, and they pass work between each other to produce a final report. Nobody does everything alone.</p>
+
+        <div class="icon-rows stagger-children">
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-4)">&#x2699;</div>
+            <div>
+              <strong>Config Manager</strong>
+              <p>Loads API keys, model names, and settings. The office manager who makes sure everyone has the credentials they need before work begins.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-1)">&#x1F321;</div>
+            <div>
+              <strong>Climate Engine</strong>
+              <p>Given a city name, finds its coordinates, pulls 10 years of weather data, and translates it into HVAC-relevant notes like "hot summers, freeze risk in winter."</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-2)">&#x1F50D;</div>
+            <div>
+              <strong>Document Search</strong>
+              <p>Searches an <span class="term" data-definition="A vector store is a special database that stores documents as mathematical patterns (vectors). Instead of searching by exact keywords, it finds documents that are semantically similar to your question — so 'cooling capacity' matches 'BTU rating' even though the words are different.">OpenAI vector store</span> of HVAC product manuals and returns the most relevant chunks with relevance scores.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-3)">&#x1F916;</div>
+            <div>
+              <strong>Answer Modes (Baseline / RAG / Agent)</strong>
+              <p>Three different strategies for turning your question into an answer. Each one uses the other players differently — or not at all.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-5)">&#x1F5A5;</div>
+            <div>
+              <strong>UI &amp; Renderer</strong>
+              <p>The <span class="term" data-definition="IPython widgets are interactive controls (dropdowns, buttons, text boxes) that appear inside a Jupyter/Colab notebook. They let you build a simple user interface without creating a separate web app.">IPython widgets</span> interface: a dropdown to pick the mode, a text box for your query, and rich output that shows evidence, climate profiles, and agent step traces.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Group chat -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">How They Collaborate</h2>
+        <p>Here's a behind-the-scenes conversation when the Deep Agent handles a location-based query. Watch how each actor plays its part:</p>
+
+        <div class="chat-window" id="chat-module2">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-4)">U</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-4)">User</span>
+                <p>Which rooftop unit do you recommend for Phoenix, Arizona?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">A</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Deep Agent</span>
+                <p>I see "Phoenix, Arizona" in the query. Let me get climate context first.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="climate" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">C</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Climate Engine</span>
+                <p>Phoenix resolved! Lat 33.45, Lon -112.07. Hottest month avg high: 107.2F. Annual precip: 8.1 inches. Dry and extremely hot.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="climate" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">C</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Climate Engine</span>
+                <p>Maintenance notes: prioritize condenser coil cleaning, check filters for dust accumulation in dry conditions.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">A</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Deep Agent</span>
+                <p>Got it. Now let me search the HVAC docs for rooftop units with strong cooling performance.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="5" data-sender="search" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">S</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">Doc Search</span>
+                <p>Found 4 chunks from the vector store. Top hit: rooftop-units-spec.pdf (score: 0.89). Includes BACnet/IP support and economizer options.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="6" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">A</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Deep Agent</span>
+                <p>Combining climate data + document evidence into a final recommendation with citations.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="7" data-sender="ui" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">R</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">Renderer</span>
+                <p>Displaying: climate profile, retrieved evidence table, agent step trace, and the final answer with [rooftop-units-spec.pdf] citations.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-typing" style="display:none">
+            <div class="chat-avatar" id="chat-module2-typing-avatar" style="background: var(--color-text-muted)">?</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Next Message</button>
+            <button class="btn chat-all-btn">Play All</button>
+            <button class="btn chat-reset-btn">Replay</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Code translation - Config -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Under the Hood: Config Manager</h2>
+        <p>Everything starts with credentials. Here's how the app loads its settings — notice the fallback pattern that checks multiple sources:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">get_secret</span>(name: <span class="code-function">str</span>, default: <span class="code-function">str</span> = <span class="code-string">""</span>) -> <span class="code-function">str</span>:</span>
+<span class="code-line">    <span class="code-keyword">if</span> os.<span class="code-function">getenv</span>(name):</span>
+<span class="code-line">        <span class="code-keyword">return</span> os.<span class="code-function">getenv</span>(name)</span>
+<span class="code-line">    <span class="code-keyword">if</span> userdata <span class="code-keyword">is not</span> <span class="code-keyword">None</span>:</span>
+<span class="code-line">        <span class="code-keyword">try</span>:</span>
+<span class="code-line">            value = userdata.<span class="code-function">get</span>(name)</span>
+<span class="code-line">            <span class="code-keyword">if</span> value:</span>
+<span class="code-line">                <span class="code-keyword">return</span> value</span>
+<span class="code-line">        <span class="code-keyword">except</span> Exception:</span>
+<span class="code-line">            <span class="code-keyword">pass</span></span>
+<span class="code-line">    <span class="code-keyword">return</span> default</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Define a helper that looks up a secret value by name.</p>
+              <p class="tl">First, check if it's set as an environment variable on the computer.</p>
+              <p class="tl">If found there, use it immediately.</p>
+              <p class="tl">If not, check if we're running in Google Colab...</p>
+              <p class="tl">...and try to read from Colab's built-in secrets manager.</p>
+              <p class="tl">Look up the secret by name in Colab.</p>
+              <p class="tl">If we got a value, use it.</p>
+              <p class="tl">Return the Colab value.</p>
+              <p class="tl">If anything goes wrong with Colab secrets, just move on.</p>
+              <p class="tl">Silently skip — no crash, just try the next option.</p>
+              <p class="tl">If nothing worked, return a default value (usually empty).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Defensive Fallbacks</strong>
+            <p>This "try here, then there, then give up gracefully" pattern is everywhere in professional code. It's called a <span class="term" data-definition="A fallback chain is when code tries multiple approaches in order, moving to the next one if the previous fails. Like checking your wallet, then your coat pocket, then your car — you stop as soon as you find your keys.">fallback chain</span>. When you're directing an AI to write code that loads configuration, asking for fallback behavior makes it much more robust.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! The Climate Engine only runs when the Deep Agent detects a location in the query. If you ask a generic product question, it's skipped entirely."
+               data-explanation-wrong="Think about what triggers the climate lookup. The Climate Engine needs a location to work with — it can't look up weather for 'everywhere.'">
+            <h3 class="quiz-question">You ask "What's the difference between Model X and Model Y?" — which actor is NOT involved?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Document Search — it needs to find product info</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Climate Engine — there's no location to look up</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>UI Renderer — the answer still needs to be displayed</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Right! Both RAG and the Deep Agent use the Document Search actor. The only mode that skips it entirely is Baseline — it just asks the AI directly with no reference material."
+               data-explanation-wrong="Think about which modes actually read HVAC documents vs. which ones just rely on the AI's built-in knowledge.">
+            <h3 class="quiz-question">Which answer mode does NOT use the Document Search actor?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Baseline LLM — it answers purely from the AI's training data</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>RAG — it only uses climate data</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Deep Agent — it handles everything itself</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

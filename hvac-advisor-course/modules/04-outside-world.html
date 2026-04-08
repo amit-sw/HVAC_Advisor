@@ -1,0 +1,214 @@
+
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">The Outside World</h1>
+      <p class="module-subtitle">This app doesn't work alone — it reaches out to four external services. Understanding them helps you debug failures and control costs.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The four APIs -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Four Services, Four Lifelines</h2>
+        <p>Think of the app as a detective agency. It has smart analysts inside, but it depends on outside informants for data. If any informant goes silent, the case stalls. Here are the four external services this app calls:</p>
+
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">&#x1F4CD;</div>
+            <h4 class="pattern-title">Open-Meteo Geocoder</h4>
+            <p class="pattern-desc">Converts a city name like "Phoenix, Arizona" into GPS coordinates (lat/lon). Free, no API key needed.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">&#x1F30D;</div>
+            <h4 class="pattern-title">Nominatim (Backup)</h4>
+            <p class="pattern-desc">OpenStreetMap's geocoder — a second opinion if Open-Meteo can't find the location. Also free.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">&#x1F321;</div>
+            <h4 class="pattern-title">Open-Meteo Climate Archive</h4>
+            <p class="pattern-desc">Returns 10 years of daily temperature and precipitation data for any GPS coordinate. Free, no key.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">&#x1F511;</div>
+            <h4 class="pattern-title">OpenAI (Vector Store + LLM)</h4>
+            <p class="pattern-desc">Two services in one: the vector store searches HVAC documents, and the LLM generates answers. Requires an API key and costs money per request.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Geocoding code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">How Location Lookup Works</h2>
+        <p>Converting "Phoenix Arizona" into GPS coordinates sounds simple, but humans type locations in messy ways. The app tries multiple variations of the input to maximize its chances:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-keyword">def</span> <span class="code-function">geocode_location</span>(location: <span class="code-function">str</span>):</span>
+<span class="code-line">    attempted = []</span>
+<span class="code-line">    <span class="code-keyword">for</span> candidate <span class="code-keyword">in</span> <span class="code-function">candidate_location_queries</span>(location):</span>
+<span class="code-line">        attempted.<span class="code-function">append</span>(candidate)</span>
+<span class="code-line">        geo = <span class="code-function">http_get_json</span>(</span>
+<span class="code-line">            <span class="code-string">"https://geocoding-api.open-meteo.com/v1/search"</span>,</span>
+<span class="code-line">            {<span class="code-string">"name"</span>: candidate, <span class="code-string">"count"</span>: <span class="code-number">3</span>},</span>
+<span class="code-line">        )</span>
+<span class="code-line">        matches = geo.<span class="code-function">get</span>(<span class="code-string">"results"</span>) <span class="code-keyword">or</span> []</span>
+<span class="code-line">        <span class="code-keyword">if</span> matches:</span>
+<span class="code-line">            <span class="code-keyword">return</span> matches[<span class="code-number">0</span>], attempted</span>
+<span class="code-line">    <span class="code-comment"># If Open-Meteo fails, try Nominatim...</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Define a function that turns a city name into coordinates.</p>
+              <p class="tl">Keep a list of everything we tried (for debugging later).</p>
+              <p class="tl">Generate several ways to spell/format the location and try each one.</p>
+              <p class="tl">Record each attempt in our tried-list.</p>
+              <p class="tl">Call the Open-Meteo geocoding API...</p>
+              <p class="tl">...with the search endpoint...</p>
+              <p class="tl">...asking for up to 3 matches.</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Pull out the results (or an empty list if none).</p>
+              <p class="tl">If we got at least one match...</p>
+              <p class="tl">...return the best one plus our attempt log. Done!</p>
+              <p class="tl">If Open-Meteo struck out on all variants, fall back to Nominatim.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Climate data pipeline -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">From Raw Weather to HVAC Advice</h2>
+        <p>Once we have GPS coordinates, the app pulls 10 years of daily weather data and boils it down to HVAC-relevant insights. Here's the transformation pipeline:</p>
+
+        <div class="step-cards stagger-children">
+          <div class="step-card animate-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Fetch 10 Years of Daily Data</strong>
+              <p>Calls Open-Meteo's archive <span class="term" data-definition="An API (Application Programming Interface) is a way for one program to talk to another. Like a waiter who takes your order to the kitchen and brings back your food — you don't go into the kitchen yourself, you just tell the waiter what you want.">API</span> for daily high temperatures, low temperatures, and precipitation from the last decade.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Build a Monthly Summary</strong>
+              <p>Groups all 3,650+ days by month and calculates averages. This smooths out weird weather days and reveals the true climate pattern.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Extract Key Metrics</strong>
+              <p>Finds the hottest month's average high, the coldest month's average low, annual precipitation, and typical daily temperature range — all converted to Fahrenheit and inches.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Generate HVAC Notes</strong>
+              <p>Rules-based logic translates weather numbers into maintenance advice. Example: "Hottest month above 90F" triggers "Prioritize condenser coil cleaning before summer."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent">
+          <div class="callout-icon">&#x1F4A1;</div>
+          <div class="callout-content">
+            <strong class="callout-title">Data Pipelines Are Everywhere</strong>
+            <p>This fetch-transform-summarize pattern is called a <span class="term" data-definition="A data pipeline is a series of steps that takes raw data, cleans it up, transforms it, and produces something useful. Like a factory assembly line: raw materials go in one end, finished products come out the other.">data pipeline</span>. Almost every AI application has one. Raw data from an external API is rarely useful on its own — it needs to be cleaned, aggregated, and translated into something your application can use. When directing AI tools to build data features, always think: what's the raw input, what transformations are needed, and what's the useful output?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Vector store search -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">How Document Search Works</h2>
+        <p>The <span class="term" data-definition="A vector store is like a library with a very smart librarian. Instead of matching exact words, it understands meaning. Ask for 'cooling capacity' and it finds documents about BTU ratings, even though those words are completely different. It works by converting text into mathematical patterns that capture the meaning.">vector store</span> is where the HVAC product manuals live. Here's how a search actually happens:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line">response = openai_client.vector_stores.<span class="code-function">search</span>(</span>
+<span class="code-line">    vector_store_id=OPENAI_VECTOR_STORE_ID,</span>
+<span class="code-line">    query=query,</span>
+<span class="code-line">    max_num_results=<span class="code-function">int</span>(top_k),</span>
+<span class="code-line">    rewrite_query=<span class="code-keyword">True</span>,</span>
+<span class="code-line">)</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Ask OpenAI's vector store to search our HVAC document library.</p>
+              <p class="tl">Tell it which library to search (identified by a unique ID).</p>
+              <p class="tl">Send the user's question as the search query.</p>
+              <p class="tl">Only return the top K most relevant chunks (default: 4).</p>
+              <p class="tl">Let OpenAI rephrase the query for better search results.</p>
+              <p class="tl">&nbsp;</p>
+            </div>
+          </div>
+        </div>
+
+        <p>Each result comes back with a filename, a relevance score (0 to 1), and a text snippet — like a search engine result, but for internal documents.</p>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! The three free services (Open-Meteo geocoder, Nominatim, and Open-Meteo archive) don't need API keys. Only OpenAI requires authentication and costs money per request."
+               data-explanation-wrong="Think about which services are free and open vs. which ones require credentials. The climate and geocoding APIs are community-maintained and free — the AI model and document store are commercial.">
+            <h3 class="quiz-question">The app stops working and you see "Missing OPENAI_API_KEY." Which features still work?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nothing — everything depends on OpenAI</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Climate lookup still works — it uses free Open-Meteo APIs, not OpenAI</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Document search still works — it's stored locally</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Right! The rewrite_query=True parameter tells OpenAI to intelligently rephrase the user's question for better search results. This is especially useful when users ask questions in natural language that don't match the vocabulary in the technical documents."
+               data-explanation-wrong="Look at the search parameters closely. One of them is specifically about improving the quality of the search by letting OpenAI reinterpret the question before searching.">
+            <h3 class="quiz-question">What does the rewrite_query=True parameter do in the vector store search?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Translates the query into a different language</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Fixes spelling mistakes in the query</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Lets OpenAI rephrase the question for better document matches</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
